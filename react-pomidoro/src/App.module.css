@@ -9,3 +9,7 @@ body {
   flex-direction: column;
   padding: 0 20px;
 }
+
+.content {
+  width: 100%; 
+}

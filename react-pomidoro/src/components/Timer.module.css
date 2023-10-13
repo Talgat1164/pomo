@@ -1,0 +1,10 @@
+.container {
+    width: 100%;
+    border: 1px solid green;
+}
+
+.content {}
+
+.modes-btn {
+    background: red;
+}
