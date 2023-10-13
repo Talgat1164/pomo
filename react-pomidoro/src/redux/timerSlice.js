@@ -24,7 +24,18 @@ const initialState = {
 
 export const timerSlice = createSlice({
     name: "timer", 
-    initialState, 
+    initialState,
+    reducers: {
+        setMode: (state, action) => {
+            state.mode = action.payload;
+        }
+    } 
 });
+
+export const {
+    setMode,
+} = timerSlice.actions;
+
+console.dir(timerSlice)
 
 export default timerSlice.reducer;
