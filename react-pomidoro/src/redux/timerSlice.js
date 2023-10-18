@@ -28,12 +28,17 @@ export const timerSlice = createSlice({
     reducers: {
         setMode: (state, action) => {
             state.mode = action.payload;
+        }, 
+        updateModeTime: (state, action) => {
+            const {mode, time} = action.payload; 
+            state.modes[mode].time = time;
         }
     } 
 });
 
 export const {
     setMode,
+    updateModeTime, 
 } = timerSlice.actions;
 
 console.dir(timerSlice)
