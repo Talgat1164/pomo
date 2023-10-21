@@ -16,15 +16,13 @@ const Settings = () => {
 
   return (
     <div>
-      
-
       <div className="section">
         <h2 className={classes.sectionTitle}>Time Settings</h2>
         <div className="sectionControls">
           {Object.values(modes).map(({ id, label, time }) => (
             <input key={id} className={classes.timeInput} onChange={(e) => {
               dispatch(updateModeTime({ mode: id, time: e.target.value }))
-            }} min={1} type="number" value={time} />
+            }} min={1} type="number" value={time/60} />
           ))}
         </div>
         <div>

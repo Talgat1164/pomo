@@ -7,17 +7,17 @@ const initialState = {
         [POMODORO]: {
             id: POMODORO,
             label: "Pomodoro",
-            time: 25, 
+            time: 25 * 60, 
         }, 
         [SHORT_BREAK]: {
             id: SHORT_BREAK, 
             label: "Short Break", 
-            time: 5, 
+            time: 5 * 60, 
         }, 
         [LONG_BREAK]: {
             id: LONG_BREAK,
             label: "Long Break",
-            time: 15, 
+            time: 15 * 60, 
         },
     },
 };
@@ -31,7 +31,7 @@ export const timerSlice = createSlice({
         }, 
         updateModeTime: (state, action) => {
             const {mode, time} = action.payload; 
-            state.modes[mode].time = time;
+            state.modes[mode].time = time * 60;
         }
     } 
 });
