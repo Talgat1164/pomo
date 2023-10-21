@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { setMode } from "../redux/timerSlice";
 import useCountdown from "../hooks/useCountdown";
 import { LONG_BREAK, POMODORO, SHORT_BREAK } from "../constants";
+import { formatTime } from "../helpers"; 
 
 const Timer = () => {
   const dispatch = useDispatch();
@@ -58,7 +59,7 @@ const Timer = () => {
           ))}
         </ul>
         <div className={classes.time}>
-            {`${mode} = ${timeLeft}`}
+            {`${mode} = ${formatTime(timeLeft)}`}
         </div>
         <div className={classes.timeBtns}>
           <button onClick={toggleTimer}>TOGGLE</button>
