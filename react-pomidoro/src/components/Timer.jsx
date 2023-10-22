@@ -1,7 +1,7 @@
 import classes from "./Timer.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback } from "react";
-import { setMode } from "../redux/timerSlice";
+import { useCallback, useEffect } from "react";
+import { setMode, updateModeTime} from "../redux/timerSlice";
 import useCountdown from "../hooks/useCountdown";
 import { LONG_BREAK, POMODORO, SHORT_BREAK } from "../constants";
 import { formatTime } from "../helpers"; 
@@ -47,6 +47,17 @@ const Timer = () => {
         break;
     }
   }, [dispatch, jumpTo, mode, start]);
+
+  useEffect(() => {
+    const storedModes = JSON.parse(localStorage.getItem('modes'));
+    if (storedModes) {
+      for (const modeId in storedModes) {
+        if (modes[modeId]) {
+          dispatch(updateModeTime({ mode: modeId, time: storedModes[modeId].time }));
+        }
+      }
+    };
+  }, [dispatch]);
 
   return (
     <div className={classes.container}>

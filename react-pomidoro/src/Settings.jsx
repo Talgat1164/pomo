@@ -2,6 +2,7 @@ import classes from './Settings.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateModeTime } from './redux/timerSlice';
 import { useNavigate } from 'react-router-dom'; // rrd5 useHistory
+import { useEffect } from 'react';
 
 const Settings = () => {
   const navigate = useNavigate(); // useHistory
@@ -14,6 +15,23 @@ const Settings = () => {
   const { modes } = useSelector((state) => state.timer);
   const dispatch = useDispatch();
 
+    const storedModes = JSON.parse(localStorage.getItem('modes'));
+    if (storedModes) {
+      for (const modeId in storedModes) {
+        if (modes[modeId]) {
+          dispatch(updateModeTime({ mode: modeId, time: storedModes[modeId].time }));
+        }
+      }
+    };
+
+
+  const handleTimeChange = (modeId, newTime) => {
+    dispatch(updateModeTime({mode: modeId, time: newTime})); 
+
+    const updatedModes = {...modes, [modeId]: {...modes[modeId], time: newTime}};
+    localStorage.setItem('modes', JSON.stringify(updatedModes))
+  }
+
   return (
     <div>
       <div className="section">
@@ -21,8 +39,9 @@ const Settings = () => {
         <div className="sectionControls">
           {Object.values(modes).map(({ id, label, time }) => (
             <input key={id} className={classes.timeInput} onChange={(e) => {
-              dispatch(updateModeTime({ mode: id, time: e.target.value }))
-            }} min={1} type="number" value={time/60} />
+              const newTime = parseInt(e.target.value) * 60; 
+              handleTimeChange(id, newTime);           
+            }} min={1} type="number" value={time / 60} />
           ))}
         </div>
         <div>

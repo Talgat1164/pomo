@@ -31,7 +31,7 @@ export const timerSlice = createSlice({
         }, 
         updateModeTime: (state, action) => {
             const {mode, time} = action.payload; 
-            state.modes[mode].time = time * 60;
+            state.modes[mode].time = time;
         }
     } 
 });
