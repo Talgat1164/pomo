@@ -1,8 +1,7 @@
 import classes from './Settings.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateModeTime } from './redux/timerSlice';
+import { updateModeTime, setLongBreakInterval} from './redux/timerSlice';
 import { useNavigate } from 'react-router-dom'; // rrd5 useHistory
-import { useEffect } from 'react';
 
 const Settings = () => {
   const navigate = useNavigate(); // useHistory
@@ -12,18 +11,8 @@ const Settings = () => {
     navigate(-1);
   };
 
-  const { modes } = useSelector((state) => state.timer);
+  const { modes, longBreakInterval} = useSelector((state) => state.timer);
   const dispatch = useDispatch();
-
-    const storedModes = JSON.parse(localStorage.getItem('modes'));
-    if (storedModes) {
-      for (const modeId in storedModes) {
-        if (modes[modeId]) {
-          dispatch(updateModeTime({ mode: modeId, time: storedModes[modeId].time }));
-        }
-      }
-    };
-
 
   const handleTimeChange = (modeId, newTime) => {
     dispatch(updateModeTime({mode: modeId, time: newTime})); 
@@ -44,9 +33,16 @@ const Settings = () => {
             }} min={1} type="number" value={time / 60} />
           ))}
         </div>
-        <div>
-            <button onClick={back}>OK</button>
-          </div>
+        
+      </div>
+      <div className="section">
+        <h2 className={classes.sectionTitle}>Long Break Interval{` => ${longBreakInterval}`}</h2>
+        <input type="number" value={longBreakInterval} onChange={(e) => {
+          dispatch(setLongBreakInterval(e.target.value));
+        }} />
+      </div>
+      <div>
+        <button onClick={back}>OK</button>
       </div>
     </div>
   )

@@ -1,14 +1,14 @@
 import classes from "./Timer.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect } from "react";
-import { setMode, updateModeTime} from "../redux/timerSlice";
+import { incrementRound, setMode, updateModeTime} from "../redux/timerSlice";
 import useCountdown from "../hooks/useCountdown";
 import { LONG_BREAK, POMODORO, SHORT_BREAK } from "../constants";
 import { formatTime } from "../helpers"; 
 
 const Timer = () => {
   const dispatch = useDispatch();
-  const { mode, modes } = useSelector((state) => state.timer);
+  const { mode, modes, round, longBreakInterval} = useSelector((state) => state.timer);
   console.log(mode, modes);
 
   const jumpTo = useCallback(
@@ -42,8 +42,16 @@ const Timer = () => {
       case SHORT_BREAK:
         jumpTo(POMODORO);
         break; 
-      default: 
-        jumpTo(SHORT_BREAK)
+      default:
+        dispatch(incrementRound());
+       
+        if (round % (longBreakInterval+1) === 0) {
+          console.log('hi')
+          jumpTo(LONG_BREAK)
+        } else {
+          jumpTo(SHORT_BREAK)
+        }
+        
         break;
     }
   }, [dispatch, jumpTo, mode, start]);
@@ -69,6 +77,7 @@ const Timer = () => {
             </button>
           ))}
         </ul>
+        <div><span style={{color: 'red', fontSize: '50px'}}>{`${mode}`}</span>{`round = ${round}, longBreakInterval = ${longBreakInterval}`}</div>
         <div className={classes.time}>
             {`${mode} = ${formatTime(timeLeft)}`}
         </div>

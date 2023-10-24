@@ -3,6 +3,8 @@ import { POMODORO, SHORT_BREAK, LONG_BREAK } from '../constants';
 
 const initialState = {
     mode: POMODORO, 
+    round: 1, 
+    longBreakInterval: 2, 
     modes: {
         [POMODORO]: {
             id: POMODORO,
@@ -32,13 +34,22 @@ export const timerSlice = createSlice({
         updateModeTime: (state, action) => {
             const {mode, time} = action.payload; 
             state.modes[mode].time = time;
+        }, 
+        incrementRound: (state) => {
+            state.round++;  
+        },
+        setLongBreakInterval: (state, action) => {
+            const lbInterval = action.payload; 
+            state.longBreakInterval = lbInterval; 
         }
     } 
 });
 
 export const {
     setMode,
-    updateModeTime, 
+    updateModeTime,
+    incrementRound, 
+    setLongBreakInterval
 } = timerSlice.actions;
 
 console.dir(timerSlice)
